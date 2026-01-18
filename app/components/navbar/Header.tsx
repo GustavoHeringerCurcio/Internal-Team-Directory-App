@@ -1,0 +1,56 @@
+"use client";
+
+import { useState } from "react";
+import Image from "next/image";
+import Logo from "../../src/images/Logo_Team_Force.png";
+import NavLink from "./NavLink";
+
+export default function Header() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  return (
+    <header className="relative border-b border-gray-300 bg-white">
+      <div className="flex items-center h-24 max-w-7xl mx-auto px-6">
+
+        {/* Logo */}
+        <div className="flex items-center gap-2">
+          <Image src={Logo} width={70} height={70} alt="TeamForce Logo" />
+          <h2 className="text-blue-600 font-bold text-2xl">TeamForce</h2>
+        </div>
+
+        {/* Navbar desktop CENTRALIZADA */}
+        <nav className="hidden md:flex absolute left-1/2 top-1/2 
+                        -translate-x-1/2 -translate-y-1/2 
+                        gap-6 font-bold">
+          <NavLink href="/" label="Home" />
+          <NavLink href="/about" label="About" />
+          <NavLink href="/pricing" label="Pricing" />
+          <NavLink href="/settings" label="Settings" />
+        </nav>
+
+        {/* Botão mobile */}
+        <div className="text-2xl text-gray-800 ml-auto md:hidden">
+          <button
+            aria-label="Toggle menu"
+            className="text-2xl"
+            onClick={() => setMenuOpen(prev => !prev)}
+          >
+            {menuOpen ? "✕" : "☰"}
+          </button>
+        </div>
+      </div>
+
+      {/* Menu mobile */}
+      {menuOpen && (
+        <nav className="md:hidden bg-white border-t border-gray-200 ">
+          <div className="flex flex-col gap-4 p-4 font-bold">
+            <NavLink href="/" label="Home" />
+            <NavLink href="/about" label="About" />
+            <NavLink href="/pricing" label="Pricing" />
+            <NavLink href="/settings" label="Settings" />
+          </div>
+        </nav>
+      )}
+    </header>
+  );
+}
