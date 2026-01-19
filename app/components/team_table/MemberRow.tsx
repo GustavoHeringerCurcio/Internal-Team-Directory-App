@@ -1,3 +1,15 @@
+type Member = {
+  id: number;
+  name: string;
+  role: string;
+  email: string;
+  avatar: string;
+};
+
+type MemberRowProps = {
+  member: Member;
+};
+
 export default function MemberRow({ member }: MemberRowProps) {
     return (
         <>
@@ -16,7 +28,7 @@ export default function MemberRow({ member }: MemberRowProps) {
                     <img
                         src={member.avatar}
                         alt={member.name}
-                        className="w-14 h-14 rounded-full object-cover flex-shrink-0"
+                        className="w-14 h-14 rounded-full object-cover shrink-0"
                     />
 
                     {/* Info */}
