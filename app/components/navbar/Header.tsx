@@ -10,12 +10,12 @@ export default function Header() {
 
   return (
     <header className="relative border-b border-gray-300 bg-white">
-      <div className="flex items-center h-24 max-w-7xl mx-auto px-6">
+      <div className="flex items-center h-18 max-w-7xl mx-auto px-6">
 
         {/* Logo */}
         <div className="flex items-center gap-2">
           <Image src={Logo} width={70} height={70} alt="TeamForce Logo" />
-          <h2 className="text-blue-600 font-bold text-2xl">TeamForce</h2>
+          <h2 className="text-blue-500 font-bold text-2xl">TeamForce</h2>
         </div>
 
         {/* Navbar desktop CENTRALIZADA */}
