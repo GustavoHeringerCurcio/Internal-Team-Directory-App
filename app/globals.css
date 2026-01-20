@@ -93,10 +93,7 @@
 
 @import "tailwindcss";
 
-/* tailwind vem primeiro que o *{} */
-* {
-    
-}
+/* tailwind vem primeiro */
 
 body {
     font-family: "SF Pro Text", "Google Sans", system-ui, sans-serif;

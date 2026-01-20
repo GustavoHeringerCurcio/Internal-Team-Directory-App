@@ -16,7 +16,7 @@ export default function NavLink({ href, label }: { href: string; label: string }
             : "text-gray-600 hover:text-black after:w-0"
         }
         after:absolute after:left-0 after:-bottom-1
-        after:h-[4px] after:bg-blue-500 after:rounded-4xl
+        after:h-1 after:bg-blue-500 after:rounded-4xl
         after:transition-all after:duration-300
         md:after:-bottom-6.5
       `}

@@ -1,19 +1,32 @@
 type Member = {
-  id: number;
-  name: string;
-  role: string;
-  email: string;
-  avatar: string;
+    id: number;
+    name: string;
+    role: string;
+    email: string;
+    avatar: string;
 };
 
 type MemberRowProps = {
-  member: Member;
+    member: Member;
+    isSelected?: boolean;
+    onClick?: () => void; // <- isso permite receber a função
 };
 
-export default function MemberRow({ member }: MemberRowProps) {
+export default function MemberRow({ member, isSelected, onClick }: MemberRowProps) {
     return (
         <>
-            <div className="relative w-full bg-white rounded-xl p-4 shadow-[0_6px_16px_rgba(0,0,0,0.08)]">
+            <div
+                onClick={onClick}
+                className={`
+                    relative w-full rounded-xl p-4 cursor-pointer transition
+                     shadow-[0_6px_16px_rgba(0,0,0,0.08)]
+
+                    ${isSelected
+                        ? "border-2 border-blue-500 bg-blue-100"
+                        : "border-2 border-transparent bg-white"
+                    }
+                `}
+            >
 
                 {/* Action menu */}
                 <button
