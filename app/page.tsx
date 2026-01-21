@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import MemberList from "./components/team_table/MemberList";
 import RoleButton from "./components/buttons/RoleButton";
 import MemberModal from "./components/modals/MemberModal";
+import Titles from "./components/Titles/Titles";
+import Header from "./components/navbar/Header";
 
 type Member = {
   id: number;
@@ -19,6 +21,14 @@ type Member = {
   gender: string;
 };
 
+type PageProps = {
+  setSearchFocused?: (val: boolean) => void;
+};
+
+type HeaderProps = {
+  visible?: boolean;
+};
+
 
 export default function Page() {
 
@@ -28,9 +38,10 @@ export default function Page() {
   const [searchQuery, setSearchQuery] = useState("");
   const [roleFilter, setRoleFilter] = useState("All");
   const [sortAz, setSortAz] = useState(false);
+  const [searchFocused, setSearchFocused] = useState(false);
 
 
-  let numberOfTeam = 10;
+  let numberOfTeam = 20;
 
 
   function getStatusByWorkTime(workStart: string, workEnd: string): "online" | "offline" {
@@ -50,11 +61,11 @@ export default function Page() {
     }
   }
 
- {/* ===== Fetch API using RandomUserAPI ===== */}
+  {/* ===== Fetch API using RandomUserAPI ===== */ }
   useEffect(() => {
     async function fetchMembers() {
       try {
-        const res = await fetch(`https://randomuser.me/api/?results=10&nat=us`);
+        const res = await fetch(`https://randomuser.me/api/?results=${numberOfTeam}&nat=us`);
         const data = await res.json();
 
         const fetchedMembers: Member[] = data.results.map((user: any, index: number) => {
@@ -72,11 +83,11 @@ export default function Page() {
           return {
             id: index + 1,
             name: `${user.name.first} ${user.name.last}`,
-            role: ["Developer", "Marketing", "Support", "Leader"][Math.floor(Math.random() * 4)],
+            role: ["Developer", "Marketing", "Support", "👑Team Lead"][Math.floor(Math.random() * 4)],
             email: user.email,
             avatar: user.picture.large,
-            workStart,  
-            workEnd,    
+            workStart,
+            workEnd,
             status: getStatusByWorkTime(workStart, workEnd),
             country: user.location.country,
             location: user.location.city + ", " + user.location.country,
@@ -96,7 +107,7 @@ export default function Page() {
   }, []);
 
 
- {/* ===== Searching Buttons ===== */}
+  {/* ===== Searching Buttons ===== */ }
 
   // 1. Filter by name
   const nameFiltered = members.filter(member =>
@@ -111,24 +122,24 @@ export default function Page() {
     sortAz ? a.name.localeCompare(b.name) : 0
   );
 
-  //RoleButton Strings
-  const roles = ["All", "Leader", "Developer", "Marketing", "Support", "+"];
+  //RoleButton Roles(strings)
+  const roles = ["All", "👑Team Lead", "Developer", "Marketing", "Support", "+"];
 
 
 
   {/* ================== "HTML" ===================*/ }
   return (
+    <>
+    {/* ===== Header ===== */}
+    <Header visible={!searchFocused}></Header>
+
     <main className="flex flex-col items-start md:items-center mt-6">
 
       {/* ===== Titles H1 and H2 ===== */}
-      <section className="flex flex-col ml-5">
-        <h1 className="font-bold text-5xl">Team Members</h1>
-        <p className="text-2xl font-light text-gray-500">Manage your organization members</p>
-
-      </section>
+      <Titles visible={!searchFocused}></Titles>
 
       {/* ===== Search by Role Buttons ===== */}
-      <section className=" w-full mt-10 ">
+      <section className=" w-full ">
         <div className="
             flex gap-3 mt-10
             overflow-x-auto
@@ -159,17 +170,24 @@ export default function Page() {
             <input
               type="text"
               placeholder="Search by name..."
-              className="w-full h-16 border border-gray-300 rounded-full bg-white px-4 pr-28 text-[20px] outline-none"
+              className="w-full h-16 border border-gray-300 rounded-full bg-white px-4 pr-28 text-[20px] transition-all duration-200"
               value={searchQuery}
 
+              // 🔹 Controla quando o Header/Titles somem
+              onFocus={() => setSearchFocused?.(true)}
+              onBlur={() => setSearchFocused?.(false)}
 
-              onChange={(e) => {
-                console.log("Input value:", e.target.value);
-                setSearchQuery(e.target.value)
-              }}
+              // 🔹 Atualiza o valor e filtra membros
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
 
+            {/* Opcional: ícone de lupa dentro do input */}
+            <span className="absolute right-6 top-1/2 transform -translate-y-1/2 text-gray-400">
+              🔍
+            </span>
           </div>
+
+
           {/* ====== A-Z button ===== */}
           <button className="bg-white text-blue-500 border shadow-[0_6px_16px_rgba(43,127,255,0.3)] border-blue-500 px-4 h-10  rounded-full md:w-auto md:h-16 mt-2 md:mt-0 active:bg-blue-100 active:scale-110"
             onClick={() => setSortAz(!sortAz)}
@@ -195,5 +213,7 @@ export default function Page() {
         />
       )}
     </main>
+    </>
+
   )
 };

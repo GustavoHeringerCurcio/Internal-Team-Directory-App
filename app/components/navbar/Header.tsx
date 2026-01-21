@@ -5,12 +5,23 @@ import Image from "next/image";
 import Logo from "../../src/images/Logo_Team_Force.png";
 import NavLink from "./NavLink";
 
+type HeaderProps = {
+  visible?: boolean;
+};
 
-export default function Header() {
+
+export default function Header({ visible = true}: HeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
 
+  if (!visible) return null;
+
   return (
-    <header className="relative border-b border-gray-300 bg-white">
+
+    <header className={`relative border-b border-gray-300 bg-white transition-transform duration-200 z-50 
+      ${visible ? "translate-y-0" : "-translate-y-full"
+
+      }`}
+    >
       <div className="flex items-center h-18 max-w-7xl mx-auto px-6">
 
         {/* Logo */}

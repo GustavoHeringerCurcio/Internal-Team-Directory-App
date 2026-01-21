@@ -64,7 +64,15 @@ export default function MemberRow({ member, isSelected, onClick }: MemberRowProp
                             </p>
                         </div>
 
-                        <span className="text-xs font-medium text-blue-700 bg-blue-100 w-fit px-2 py-0.5 rounded-full">
+                        <span className={`text-xs font-medium w-fit px-2 py-0.5 rounded-full
+                            ${member.role === "👑Team Lead" ? "bg-yellow-100 text-yellow-800" :
+                                            member.role === "Developer" ? "bg-blue-100 text-blue-800" :
+                                            member.role === "Marketing" ? "bg-cyan-100 text-cyan-800" :
+                                            member.role === "Support" ? "bg-violet-100 text-violet-800" :
+                                            "bg-blue-100 text-blue-700"
+                                }
+
+                            `}>
                             {member.role}
                         </span>
 
