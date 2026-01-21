@@ -13,7 +13,7 @@ export default function NavLink({ href, label }: { href: string; label: string }
         ${
           isActive
             ? "text-blue-500 after:w-full font-bold"
-            : "text-gray-600 hover:text-black after:w-0"
+            : "text-gray-600 hover:text-blue-500 hover:transition after:w-0"
         }
         after:absolute after:left-0 after:-bottom-1
         after:h-1 after:bg-blue-500 after:rounded-4xl

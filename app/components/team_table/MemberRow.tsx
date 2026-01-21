@@ -4,6 +4,7 @@ type Member = {
     role: string;
     email: string;
     avatar: string;
+    status: "online" | "offline";
 };
 
 type MemberRowProps = {
@@ -40,15 +41,23 @@ export default function MemberRow({ member, isSelected, onClick }: MemberRowProp
                     {/* Avatar */}
                     <img
                         src={member.avatar}
+                        srcSet={`${member.avatar} 2x`}
                         alt={member.name}
                         className="w-14 h-14 rounded-full object-cover shrink-0"
                     />
 
                     {/* Info */}
                     <div className="flex flex-col gap-1">
-                        <p className="text-base font-semibold text-gray-900 leading-tight">
-                            {member.name}
-                        </p>
+                        <div className="flex items-center gap-2">
+                            <span className={`
+                            h-2.5 w-2.5 rounded-full
+                            ${member.status === "online" ? "bg-green-500" : "bg-red-500"}
+                            `}
+                            />
+                            <p className="text-base font-semibold text-gray-900 leading-tight">
+                                {member.name}
+                            </p>
+                        </div>
 
                         <span className="text-xs font-medium text-blue-700 bg-blue-100 w-fit px-2 py-0.5 rounded-full">
                             {member.role}

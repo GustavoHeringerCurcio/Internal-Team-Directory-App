@@ -6,6 +6,7 @@ type Member = {
     role: string;
     email: string;
     avatar: string;
+    status: "online" | "offline";
 };
 
 type MemberListProps = {
@@ -33,14 +34,14 @@ export default function MemberList({ members, selectedMemberId, onMemberClick, }
             </div>
 
             {/* =================== Desktop layout =============== */}
-            <div className="hidden md:block max-w-[73%] mx-auto">
+            <div className="hidden md:block max-w-[70%] mx-auto">
 
                 {/* Table container */}
-                <div className="rounded-2xl shadow-sm overflow-hidden"
+                <div className="rounded-4xl shadow-lg"
                 >
 
                     {/* Header */}
-                    <div className="grid grid-cols-[1.5fr_1.5fr_1.5fr_1.5fr] px-6 py-4 text-xs font-semibold text-gray-500 uppercase border border-gray-200">
+                    <div className="grid grid-cols-[1.5fr_1.5fr_1.5fr_1.5fr] px-6 py-4 text-xs font-semibold text-gray-500 uppercase border border-gray-300 rounded-full">
                         <div>Avatar</div>
                         <div>Name</div>
                         <div>Role</div>
@@ -48,7 +49,7 @@ export default function MemberList({ members, selectedMemberId, onMemberClick, }
                     </div>
 
                     {/* Rows */}
-                    <div className="divide-y divide-gray-200">
+                    <div className="divide-y divide-gray-200 divide-rounded">
                         {members.map((member) => {
                             const isSelected = member.id === selectedMemberId;
 
@@ -58,8 +59,8 @@ export default function MemberList({ members, selectedMemberId, onMemberClick, }
 
                                     <div
                                         onClick={() => onMemberClick?.(member)}
-                                        className={`grid grid-cols-[1.5fr_1.5fr_1.5fr_1.5fr]
-                                                    items-center px-6 py-3 cursor-pointer transition rounded-lg
+                                        className={`grid grid-cols-[1.5fr_1.5fr_1.5fr_1.5fr] 
+                                                    items-center justify-items-start px-6 py-3 cursor-pointer transition rounded-full
                                                 ${isSelected
                                                 ? "bg-blue-200 ring-2 ring-blue-500"
                                                 : "hover:bg-blue-50"
@@ -73,13 +74,24 @@ export default function MemberList({ members, selectedMemberId, onMemberClick, }
                                             className="w-14 h-14 rounded-full object-cover"
                                         />
 
-                                        {/* Name */}
-                                        <p className="font-medium text-gray-900">
-                                            {member.name}
-                                        </p>
+                                        {/* Name + Status */}
+                                        <div className="grid grid-cols-[10px_1fr] items-center justify-items-start gap-3" >
+
+                                            <span className={`
+                                            h-2.5 w-2.5 rounded-full
+                                            ${member.status === "online" ? "bg-green-500" : "bg-red-500"}
+                                            `}
+                                            />
+
+
+                                            <p className="font-medium text-gray-900">
+                                                {member.name}
+                                            </p>
+
+                                        </div>
 
                                         {/* Role */}
-                                        <span className="w-fit text-xs font-medium text-blue-700 bg-blue-100 px-3 py-1 rounded-full">
+                                        <span className=" text-xs font-medium text-blue-700 bg-blue-100 px-3 py-1 rounded-full">
                                             {member.role}
                                         </span>
 

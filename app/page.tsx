@@ -1,11 +1,9 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import MemberList from "./components/team_table/MemberList";
 import RoleButton from "./components/buttons/RoleButton";
 import MemberModal from "./components/modals/MemberModal";
-
-import { useState } from "react";
-
 
 type Member = {
   id: number;
@@ -13,89 +11,51 @@ type Member = {
   role: string;
   email: string;
   avatar: string;
+  status: "online" | "offline";
 };
 
-const members: Member[] = [
-  {
-    id: 1,
-    name: "John Smith",
-    role: "Developer",
-    email: "john.smith@email.com",
-    avatar: "https://xsgames.co/randomusers/avatar.php?g=male&u=1"
-  },
-  {
-    id: 2,
-    name: "Michael Brown",
-    role: "Developer",
-    email: "michael.brown@email.com",
-    avatar: "https://xsgames.co/randomusers/avatar.php?g=male&u=2"
-  },
-  {
-    id: 3,
-    name: "David Lee",
-    role: "Support",
-    email: "david.lee@email.com",
-    avatar: "https://xsgames.co/randomusers/avatar.php?g=male&u=3"
-  },
-  {
-    id: 4,
-    name: "James Wilson",
-    role: "Marketing",
-    email: "james.wilson@email.com",
-    avatar: "https://xsgames.co/randomusers/avatar.php?g=male&u=4"
-  },
-  {
-    id: 5,
-    name: "Robert Johnson",
-    role: "Developer",
-    email: "robert.johnson@email.com",
-    avatar: "https://xsgames.co/randomusers/avatar.php?g=male&u=5"
-  },
-  {
-    id: 6,
-    name: "William Davis",
-    role: "Support",
-    email: "william.davis@email.com",
-    avatar: "https://xsgames.co/randomusers/avatar.php?g=male&u=6"
-  },
-  {
-    id: 7,
-    name: "Emily Martinez",
-    role: "Marketing",
-    email: "emily.martinez@email.com",
-    avatar: "https://xsgames.co/randomusers/avatar.php?g=female&u=7"
-  },
-  {
-    id: 8,
-    name: "Sophia Taylor",
-    role: "Marketing",
-    email: "sophia.taylor@email.com",
-    avatar: "https://xsgames.co/randomusers/avatar.php?g=female&u=8"
-  },
-  {
-    id: 9,
-    name: "Olivia Anderson",
-    role: "Developer",
-    email: "olivia.anderson@email.com",
-    avatar: "https://xsgames.co/randomusers/avatar.php?g=female&u=9"
-  },
-  {
-    id: 10,
-    name: "Ava Thomas",
-    role: "Support",
-    email: "ava.thomas@email.com",
-    avatar: "https://xsgames.co/randomusers/avatar.php?g=female&u=10"
-  },
-];
+
 
 
 export default function Page() {
 
   //use State
+  const [members, setMembers] = useState<Member[]>([]);
   const [selectedMember, setSelectedMember] = useState<Member | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [roleFilter, setRoleFilter] = useState("All");
   const [sortAz, setSortAz] = useState(false);
+
+
+
+  let numberOfTeam = 10;
+
+  useEffect(() => {
+  async function fetchMembers() {
+    try {
+      const res = await fetch(`https://randomuser.me/api/?results=10&inc=name,email,picture,login&nat=us`);
+      const data = await res.json();
+
+      const fetchedMembers: Member[] = data.results.map((user: any, index: number) => ({
+        id: index + 1,
+        name: `${user.name.first} ${user.name.last}`,
+        role: ["Developer", "Marketing", "Support" ][Math.floor(Math.random() * 3)],
+        email: user.email,
+        avatar: user.picture.large,
+        status: Math.random() < 0.5 ? "online" : "offline" /* === NOTE: CHANGE IT LATER === */
+        
+      }));
+
+      console.log(fetchedMembers)
+      setMembers(fetchedMembers);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  fetchMembers();
+}, []);
+
 
 
   // 1. Filtrar por nome
@@ -116,9 +76,7 @@ export default function Page() {
 
 
 
-
-
-
+  {/* ================== "HTML" ===================*/}
   return (
     <main className="flex flex-col items-start md:items-center mt-6">
 
@@ -150,7 +108,7 @@ export default function Page() {
             <input
               type="text"
               placeholder="Search by name..."
-              className="w-full h-16 border border-gray-300 rounded-full bg-white px-4 pr-28 text-[20px]"
+              className="w-full h-16 border border-gray-300 rounded-full bg-white px-4 pr-28 text-[20px] outline-none"
               value={searchQuery}
 
 
@@ -158,7 +116,6 @@ export default function Page() {
                 console.log("Input value:", e.target.value);
                 setSearchQuery(e.target.value)
               }}
-
             />
 
           </div>
@@ -181,18 +138,13 @@ export default function Page() {
         onMemberClick={(member) => setSelectedMember(member)}
       />
 
+      {/* ===== If Selected ===== */}
       {selectedMember && (
         <MemberModal
           member={selectedMember}
           onClose={() => setSelectedMember(null)}
         />
       )}
-
-
-
-
-
-
 
     </main>
   )
