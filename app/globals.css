@@ -95,6 +95,16 @@
 
 /* tailwind vem primeiro */
 
+
+/* Esconder scrollbar mas manter funcionalidade */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 body {
     font-family: "SF Pro Text", "Google Sans", system-ui, sans-serif;
     background-color: #F3F6FA;

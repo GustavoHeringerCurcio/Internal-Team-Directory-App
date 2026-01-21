@@ -12,9 +12,12 @@ type Member = {
   email: string;
   avatar: string;
   status: "online" | "offline";
+  workStart: string; // Exemplo: "09:00"
+  workEnd: string;   // Exemplo: "17:00"
+  country: string;
+  location: string;
+  gender: string;
 };
-
-
 
 
 export default function Page() {
@@ -27,56 +30,91 @@ export default function Page() {
   const [sortAz, setSortAz] = useState(false);
 
 
-
   let numberOfTeam = 10;
 
-  useEffect(() => {
-  async function fetchMembers() {
-    try {
-      const res = await fetch(`https://randomuser.me/api/?results=10&inc=name,email,picture,login&nat=us`);
-      const data = await res.json();
+  function getStatusByWorkTime(workStart: string, workEnd: string): "online" | "offline" {
+    // Pegar horário atual em EST
+    const estTime = new Date().toLocaleString('en-US', {
+      timeZone: 'America/New_York',
+      hour12: false,
+      hour: '2-digit',
+      minute: '2-digit'
+    });
 
-      const fetchedMembers: Member[] = data.results.map((user: any, index: number) => ({
-        id: index + 1,
-        name: `${user.name.first} ${user.name.last}`,
-        role: ["Developer", "Marketing", "Support" ][Math.floor(Math.random() * 3)],
-        email: user.email,
-        avatar: user.picture.large,
-        status: Math.random() < 0.5 ? "online" : "offline" /* === NOTE: CHANGE IT LATER === */
-        
-      }));
-
-      console.log(fetchedMembers)
-      setMembers(fetchedMembers);
-    } catch (err) {
-      console.error(err);
+    // Comparar: estTime >= workStart && estTime < workEnd
+    if (estTime >= workStart && estTime < workEnd) {
+      return "online";   // Está dentro do horário de trabalho
+    } else {
+      return "offline";  // Fora do horário de trabalho
     }
   }
 
-  fetchMembers();
-}, []);
+
+  useEffect(() => {
+    async function fetchMembers() {
+      try {
+        const res = await fetch(`https://randomuser.me/api/?results=10&nat=us`);
+        const data = await res.json();
+
+        const fetchedMembers: Member[] = data.results.map((user: any, index: number) => {
+
+          const schedules = [
+            { start: "08:00", end: "16:00" },
+            { start: "16:00", end: "23:59" },
+            { start: "00:00", end: "08:00" },
+          ];
+
+          const randomSchedule = schedules[Math.floor(Math.random() * schedules.length)];
+          const workStart = randomSchedule.start;
+          const workEnd = randomSchedule.end;
+
+          return {
+            id: index + 1,
+            name: `${user.name.first} ${user.name.last}`,
+            role: ["Developer", "Marketing", "Support"][Math.floor(Math.random() * 3)],
+            email: user.email,
+            avatar: user.picture.large,
+            workStart,  
+            workEnd,    
+            status: getStatusByWorkTime(workStart, workEnd),
+            country: user.location.country,
+            location: user.location.city + ", " + user.location.country,
+            gender: user.gender,
+          };
+
+        });
+
+        console.log(fetchedMembers)
+        setMembers(fetchedMembers);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    fetchMembers();
+  }, []);
 
 
 
-  // 1. Filtrar por nome
+  // 1. Filter by name
   const nameFiltered = members.filter(member =>
     member.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
-  // 2. Filtrar por cargo
+  // 2. filter by role
   const roleFiltered = nameFiltered.filter(member =>
     roleFilter === "All" ? true : member.role === roleFilter
   );
-  // 3. Ordenar
- const sortedMembers = [...roleFiltered].sort((a, b) =>
-  sortAz ? a.name.localeCompare(b.name) : 0
-);
+  // 3. sort A-Z
+  const sortedMembers = [...roleFiltered].sort((a, b) =>
+    sortAz ? a.name.localeCompare(b.name) : 0
+  );
 
   //RoleButton Strings
   const roles = ["All", "Marketing", "Developer", "Support"];
 
 
 
-  {/* ================== "HTML" ===================*/}
+  {/* ================== "HTML" ===================*/ }
   return (
     <main className="flex flex-col items-start md:items-center mt-6">
 
@@ -89,14 +127,25 @@ export default function Page() {
 
       {/* ===== Search by Role Buttons ===== */}
       <section className=" md:w-screen ">
-        <div className="flex flex-row gap-3 mt-10 overflow-x-auto md:overflow-visible md:justify-center ml-5 md:ml-5">
+        <div className="
+            flex gap-3 mt-10
+            overflow-x-auto
+            whitespace-nowrap
+            px-4
+            pb-2
+            scrollbar-hide
+            md:justify-center
+            md:overflow-x-visible
+            scroll-smooth 
+            snap-x 
+            snap-mandatory
+          ">
           {roles.map((role) => (
             <RoleButton
               key={role}
               role={role}
               selectedRole={roleFilter}
               setSelectedRole={setRoleFilter}
-
             ></RoleButton>
           ))}
         </div>

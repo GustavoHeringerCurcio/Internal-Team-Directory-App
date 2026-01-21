@@ -7,7 +7,7 @@ type RoleButtonProps = {
 export default function RoleButton({ role, selectedRole, setSelectedRole }: RoleButtonProps) {
   return (
     <button
-      className={`px-4 py-2 rounded-full border border-gray-400 ${
+      className={`shrink-0 px-4 py-2 rounded-full border border-gray-400 ${
         selectedRole === role ? "bg-blue-500 text-white" : "bg-white text-gray-500"
       }`}
       onClick={() => setSelectedRole(role)} // atualiza o filtro ao clicar

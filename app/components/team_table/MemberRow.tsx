@@ -5,6 +5,8 @@ type Member = {
     email: string;
     avatar: string;
     status: "online" | "offline";
+    workStart: string;
+    workEnd: string;
 };
 
 type MemberRowProps = {
