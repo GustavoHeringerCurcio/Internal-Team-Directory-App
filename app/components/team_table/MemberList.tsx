@@ -1,12 +1,17 @@
 import MemberRow from "./MemberRow";
 
 type Member = {
-    id: number;
-    name: string;
-    role: string;
-    email: string;
-    avatar: string;
-    status: "online" | "offline";
+  id: number;
+  name: string;
+  role: string;
+  email: string;
+  avatar: string;
+  status: "online" | "offline";
+  workStart: string; // Exemplo: "09:00"
+  workEnd: string;   // Exemplo: "17:00"
+  country: string;
+  location: string;
+  gender: string;
 };
 
 type MemberListProps = {

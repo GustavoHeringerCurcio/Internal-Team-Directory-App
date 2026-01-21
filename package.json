@@ -3,11 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -H 0.0.0.0 -p 5173",
+    "dev": "next dev -H 0.0.0.0",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
-    "host": "next dev -H 0.0.0.0 -p 5173"
+    "lint": "eslint"
   },
   "dependencies": {
     "cors": "^2.8.5",
