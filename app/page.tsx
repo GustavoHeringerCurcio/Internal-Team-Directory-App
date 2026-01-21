@@ -32,6 +32,7 @@ export default function Page() {
 
   let numberOfTeam = 10;
 
+
   function getStatusByWorkTime(workStart: string, workEnd: string): "online" | "offline" {
     // Pegar horário atual em EST
     const estTime = new Date().toLocaleString('en-US', {
@@ -41,7 +42,7 @@ export default function Page() {
       minute: '2-digit'
     });
 
-    // Comparar: estTime >= workStart && estTime < workEnd
+    // Compare: estTime >= workStart && estTime < workEnd
     if (estTime >= workStart && estTime < workEnd) {
       return "online";   // Está dentro do horário de trabalho
     } else {
@@ -49,7 +50,7 @@ export default function Page() {
     }
   }
 
-
+ {/* ===== Fetch API using RandomUserAPI ===== */}
   useEffect(() => {
     async function fetchMembers() {
       try {
@@ -71,7 +72,7 @@ export default function Page() {
           return {
             id: index + 1,
             name: `${user.name.first} ${user.name.last}`,
-            role: ["Developer", "Marketing", "Support"][Math.floor(Math.random() * 3)],
+            role: ["Developer", "Marketing", "Support", "Leader"][Math.floor(Math.random() * 4)],
             email: user.email,
             avatar: user.picture.large,
             workStart,  
@@ -95,6 +96,7 @@ export default function Page() {
   }, []);
 
 
+ {/* ===== Searching Buttons ===== */}
 
   // 1. Filter by name
   const nameFiltered = members.filter(member =>
@@ -110,7 +112,7 @@ export default function Page() {
   );
 
   //RoleButton Strings
-  const roles = ["All", "Marketing", "Developer", "Support"];
+  const roles = ["All", "Leader", "Developer", "Marketing", "Support", "+"];
 
 
 
@@ -126,7 +128,7 @@ export default function Page() {
       </section>
 
       {/* ===== Search by Role Buttons ===== */}
-      <section className=" md:w-screen ">
+      <section className=" w-full mt-10 ">
         <div className="
             flex gap-3 mt-10
             overflow-x-auto
@@ -136,7 +138,7 @@ export default function Page() {
             scrollbar-hide
             md:justify-center
             md:overflow-x-visible
-            scroll-smooth 
+            scroll-smooth
             snap-x 
             snap-mandatory
           ">
@@ -178,9 +180,7 @@ export default function Page() {
         </div>
       </section>
 
-      {/* ===== Members list ===== */}
-
-
+      {/* ===== Members list using sortedMembers ===== */}
       <MemberList
         members={sortedMembers}
         selectedMemberId={selectedMember?.id}
@@ -194,7 +194,6 @@ export default function Page() {
           onClose={() => setSelectedMember(null)}
         />
       )}
-
     </main>
   )
 };
