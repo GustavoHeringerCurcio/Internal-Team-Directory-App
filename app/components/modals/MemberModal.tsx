@@ -1,19 +1,19 @@
 "use client";
-
+import { useEffect } from "react";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 
 type Member = {
-  id: number;
-  name: string;
-  role: string;
-  email: string;
-  avatar: string;
-  status: "online" | "offline";
-  workStart: string; // Example: "09:00"
-  workEnd: string;   // Example: "17:00"
-  country: string;
-  location: string;
-  gender: string;
+    id: number;
+    name: string;
+    role: string;
+    email: string;
+    avatar: string;
+    status: "online" | "offline";
+    workStart: string; // Example: "09:00"
+    workEnd: string;   // Example: "17:00"
+    country: string;
+    location: string;
+    gender: string;
 };
 
 
@@ -23,13 +23,31 @@ type MemberModalProps = {
 };
 
 
+
 export default function MemberModal({ member, onClose }: MemberModalProps) {
 
+    {/* ===== press esc to close modal and removeEventListener */}
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === "Escape") {
+                onClose();
+            }
+        };
+
+        window.addEventListener("keydown", handleKeyDown);
+
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [onClose]);
 
 
     return (
-        <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50 px-4"        >
-            <div className="bg-white rounded-xl w-full max-w-lg px-6 py-5 relative drop-shadow-xl border border-gray-300">
+        <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50 px-4"
+            onClick={onClose}>
+
+            <div className="bg-white rounded-xl w-full max-w-lg px-6 py-5 relative drop-shadow-xl border border-gray-300"
+                onClick={(e) => e.stopPropagation()}>
 
                 {/* Modal content vai aqui */}
                 <button
@@ -53,7 +71,15 @@ export default function MemberModal({ member, onClose }: MemberModalProps) {
                 {/* Name and Role */}
                 <h2 className="text-3xl font-bold text-center drop-shadow-lg my-5">{member.name}</h2>
                 <div className="flex justify-between p-2 gap-5 mt-2">
-                    <div className="px-3 py-1 w-full text-center block font-bold text-[18px] border-2 border-blue-600 text-blue-600 rounded-full">{member.role}</div>
+                    <div className={`px-3 py-1 w-full text-center block font-bold text-[18px] border-2  rounded-full
+                        ${member.role === "👑Team Lead" ? "bg-yellow-100 text-yellow-800" :
+                                            member.role === "Developer" ? "bg-blue-100 text-blue-800" :
+                                            member.role === "Marketing" ? "bg-cyan-100/50 text-cyan-800" :
+                                            member.role === "Support" ? "bg-violet-100 text-violet-800" :
+                                            "bg-blue-100 text-blue-700"
+                                }
+                        `}> {member.role}
+                        </div>
 
                     <p className={`
                         px-3 py-1 w-28 text-center block font-bold text-[18px] border-2  rounded-full

@@ -79,13 +79,13 @@ export default function Settings() {
           <h2>Update your personal team settings here.</h2>
 
           <div className="flex flex-col mt-5">
-            <p className="text-black font-semibold text-nowrap">Manage the size</p>
+            <p className="text-black font-semibold text-nowrap">Manage the size of your team</p>
 
             <div className="flex flex-col md:flex-row gap-2  md:justify-start">
               <input
                 value={teamSize}
                 onChange={(e) => setTeamSize(Number(e.target.value))}
-                type="number" name="Name" id="name" className="bg-gray-200 h-8 text-sm md:text-base px-4 rounded-lg w-[20%] transition" />
+                type="number" name="Name" id="name" className="bg-gray-200 h-8 text-sm md:text-base px-4 rounded-lg w-full md:[w-20%] transition" />
 
               <input
                 type="submit"

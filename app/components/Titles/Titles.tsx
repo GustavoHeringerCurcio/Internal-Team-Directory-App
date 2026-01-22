@@ -15,8 +15,8 @@ export default function Titles({ visible }: TitleProps) {
         ${visible ? "" : "hidden md:flex"}
       `}
         >
-            <h1 className="font-bold text-5xl">Team Members</h1>
-            <p className="text-2xl font-light text-gray-500">
+            <h1 className="font-bold text-2xl md:text-5xl">Team Members</h1>
+            <p className="text-base md:text-2xl font-light text-gray-500">
                 Manage your organization members
             </p>
         </section>

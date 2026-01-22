@@ -1,11 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, } from "react";
+
 import MemberList from "./components/team_table/MemberList";
 import RoleButton from "./components/buttons/RoleButton";
 import MemberModal from "./components/modals/MemberModal";
 import Titles from "./components/Titles/Titles";
 import Header from "./components/navbar/Header";
+import Overview from "./components/team_table/Overview";
 
 type Member = {
   id: number;
@@ -43,11 +45,11 @@ export default function Page() {
 
 
   const [numberOfTeam, setNumberOfTeam] = useState<number>(() => {
-  if (typeof window === "undefined") return 20;
+    if (typeof window === "undefined") return 20;
 
-  const saved = localStorage.getItem("teamSize");
-  return saved ? Number(saved) : 20;
-});
+    const saved = localStorage.getItem("teamSize");
+    return saved ? Number(saved) : 20;
+  });
 
   function getStatusByWorkTime(workStart: string, workEnd: string): "online" | "offline" {
     // Pegar horário atual em EST
@@ -66,9 +68,27 @@ export default function Page() {
     }
   }
 
+  {/* ===== Overview stats ===== */ }
+  const totalMembers = members.length;
+
+  // Leaders Active
+  const leadersActive = members.filter(
+    m => m.role === "👑Team Lead" && m.status === "online"
+  ).length;
+
+  // Members Active
+  const membersActive = members.filter(
+    m => m.status === "online"
+  ).length;
+
+  // Members Away
+  const membersAway = members.filter(
+    m => m.status === "offline"
+  ).length;
+
   {/* ===== Fetch API using RandomUserAPI ===== */ }
   useEffect(() => {
-     setLoading(true);
+    setLoading(true);
 
     async function fetchMembers() {
       try {
@@ -86,6 +106,7 @@ export default function Page() {
           const randomSchedule = schedules[Math.floor(Math.random() * schedules.length)];
           const workStart = randomSchedule.start;
           const workEnd = randomSchedule.end;
+
 
           return {
             id: index + 1,
@@ -131,26 +152,34 @@ export default function Page() {
     sortAz ? a.name.localeCompare(b.name) : 0
   );
 
+
   //RoleButton Roles(strings)
   const roles = ["All", "👑Team Lead", "Developer", "Marketing", "Support", "+"];
-
-
 
   {/* ================== "HTML" ===================*/ }
   return (
     <>
-      {/* ===== Header ===== */}
+      {/* ===== Component.Header ===== */}
       <Header visible={!searchFocused}></Header>
 
-      <main className="flex flex-col items-start md:items-center mt-6">
+      <main className="flex flex-col items-start md:items-center mt-3">
 
-        {/* ===== Titles H1 and H2 ===== */}
+        {/* ===== Component Titles and Desc ===== */}
         <Titles visible={!searchFocused}></Titles>
+
+        {/* ===== Component.OverView ===== */}
+        <Overview
+          totalMembers={totalMembers}
+          leadersActive={leadersActive}
+          membersActive={membersActive}
+          membersAway={membersAway}
+          visible={!searchFocused}
+        />
 
         {/* ===== Search by Role Buttons ===== */}
         <section className=" w-full ">
           <div className="
-            flex gap-3 mt-10
+            flex gap-3 mt-3
             overflow-x-auto
             whitespace-nowrap
             px-4
@@ -162,6 +191,7 @@ export default function Page() {
             snap-x 
             snap-mandatory
           ">
+
             {roles.map((role) => (
               <RoleButton
                 key={role}
@@ -172,9 +202,10 @@ export default function Page() {
             ))}
           </div>
 
+
           <div className="flex flex-col md:flex-row justify-center items-start w-screen mt-5 gap-2 px-5 md:px-5">
 
-            {/* ===== Search Bar ===== */}
+            
             <div className="relative w-full md:w-[70%] h-16">
               <input
                 type="text"
@@ -182,11 +213,11 @@ export default function Page() {
                 className="w-full h-16 border border-gray-300 rounded-full bg-white px-4 pr-28 text-[20px] transition-all duration-200"
                 value={searchQuery}
 
-                // 🔹 Controla quando o Header/Titles somem
+                //  Controla quando o Header/Titles somem
                 onFocus={() => setSearchFocused?.(true)}
                 onBlur={() => setSearchFocused?.(false)}
 
-                // 🔹 Atualiza o valor e filtra membros
+                // Atualiza o valor e filtra membros
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
 
