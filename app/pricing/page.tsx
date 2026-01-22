@@ -1,5 +1,9 @@
+import Header from "../components/navbar/Header";
+
 export default function Pricing() {
   return (
+    <>
+    <Header></Header>
     <main className="flex flex-col items-center mt-10">
       <section className="flex flex-col items-center gap-4 max-w-2xl px-5">
         <h1 className="font-bold text-5xl">Pricing Plans</h1>
@@ -8,5 +12,6 @@ export default function Pricing() {
         </p>
       </section>
     </main>
+    </>
   );
 }

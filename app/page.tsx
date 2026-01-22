@@ -39,10 +39,15 @@ export default function Page() {
   const [roleFilter, setRoleFilter] = useState("All");
   const [sortAz, setSortAz] = useState(false);
   const [searchFocused, setSearchFocused] = useState(false);
+  const [loading, setLoading] = useState(true); // NOTE: Simple Load State -- transform to skeleton later
 
 
-  let numberOfTeam = 20;
+  const [numberOfTeam, setNumberOfTeam] = useState<number>(() => {
+  if (typeof window === "undefined") return 20;
 
+  const saved = localStorage.getItem("teamSize");
+  return saved ? Number(saved) : 20;
+});
 
   function getStatusByWorkTime(workStart: string, workEnd: string): "online" | "offline" {
     // Pegar horário atual em EST
@@ -63,6 +68,8 @@ export default function Page() {
 
   {/* ===== Fetch API using RandomUserAPI ===== */ }
   useEffect(() => {
+     setLoading(true);
+
     async function fetchMembers() {
       try {
         const res = await fetch(`https://randomuser.me/api/?results=${numberOfTeam}&nat=us`);
@@ -98,13 +105,15 @@ export default function Page() {
 
         console.log(fetchedMembers)
         setMembers(fetchedMembers);
+        setLoading(false);
       } catch (err) {
         console.error(err);
+        setLoading(false);
       }
     }
 
     fetchMembers();
-  }, []);
+  }, [numberOfTeam]);
 
 
   {/* ===== Searching Buttons ===== */ }
@@ -130,17 +139,17 @@ export default function Page() {
   {/* ================== "HTML" ===================*/ }
   return (
     <>
-    {/* ===== Header ===== */}
-    <Header visible={!searchFocused}></Header>
+      {/* ===== Header ===== */}
+      <Header visible={!searchFocused}></Header>
 
-    <main className="flex flex-col items-start md:items-center mt-6">
+      <main className="flex flex-col items-start md:items-center mt-6">
 
-      {/* ===== Titles H1 and H2 ===== */}
-      <Titles visible={!searchFocused}></Titles>
+        {/* ===== Titles H1 and H2 ===== */}
+        <Titles visible={!searchFocused}></Titles>
 
-      {/* ===== Search by Role Buttons ===== */}
-      <section className=" w-full ">
-        <div className="
+        {/* ===== Search by Role Buttons ===== */}
+        <section className=" w-full ">
+          <div className="
             flex gap-3 mt-10
             overflow-x-auto
             whitespace-nowrap
@@ -153,66 +162,72 @@ export default function Page() {
             snap-x 
             snap-mandatory
           ">
-          {roles.map((role) => (
-            <RoleButton
-              key={role}
-              role={role}
-              selectedRole={roleFilter}
-              setSelectedRole={setRoleFilter}
-            ></RoleButton>
-          ))}
-        </div>
-
-        <div className="flex flex-col md:flex-row justify-center items-start w-screen mt-5 gap-2 px-5 md:px-5">
-
-          {/* ===== Search Bar ===== */}
-          <div className="relative w-full md:w-[70%] h-16">
-            <input
-              type="text"
-              placeholder="Search by name..."
-              className="w-full h-16 border border-gray-300 rounded-full bg-white px-4 pr-28 text-[20px] transition-all duration-200"
-              value={searchQuery}
-
-              // 🔹 Controla quando o Header/Titles somem
-              onFocus={() => setSearchFocused?.(true)}
-              onBlur={() => setSearchFocused?.(false)}
-
-              // 🔹 Atualiza o valor e filtra membros
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-
-            {/* Opcional: ícone de lupa dentro do input */}
-            <span className="absolute right-6 top-1/2 transform -translate-y-1/2 text-gray-400">
-              🔍
-            </span>
+            {roles.map((role) => (
+              <RoleButton
+                key={role}
+                role={role}
+                selectedRole={roleFilter}
+                setSelectedRole={setRoleFilter}
+              ></RoleButton>
+            ))}
           </div>
 
+          <div className="flex flex-col md:flex-row justify-center items-start w-screen mt-5 gap-2 px-5 md:px-5">
 
-          {/* ====== A-Z button ===== */}
-          <button className="bg-white text-blue-500 border shadow-[0_6px_16px_rgba(43,127,255,0.3)] border-blue-500 px-4 h-10  rounded-full md:w-auto md:h-16 mt-2 md:mt-0 active:bg-blue-100 active:scale-110"
-            onClick={() => setSortAz(!sortAz)}
-          >
-            A→Z
-          </button>
+            {/* ===== Search Bar ===== */}
+            <div className="relative w-full md:w-[70%] h-16">
+              <input
+                type="text"
+                placeholder="Search by name..."
+                className="w-full h-16 border border-gray-300 rounded-full bg-white px-4 pr-28 text-[20px] transition-all duration-200"
+                value={searchQuery}
 
-        </div>
-      </section>
+                // 🔹 Controla quando o Header/Titles somem
+                onFocus={() => setSearchFocused?.(true)}
+                onBlur={() => setSearchFocused?.(false)}
 
-      {/* ===== Members list using sortedMembers ===== */}
-      <MemberList
-        members={sortedMembers}
-        selectedMemberId={selectedMember?.id}
-        onMemberClick={(member) => setSelectedMember(member)}
-      />
+                // 🔹 Atualiza o valor e filtra membros
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
 
-      {/* ===== If Selected ===== */}
-      {selectedMember && (
-        <MemberModal
-          member={selectedMember}
-          onClose={() => setSelectedMember(null)}
-        />
-      )}
-    </main>
+              {/* Opcional: ícone de lupa dentro do input */}
+              <span className="absolute right-6 top-1/2 transform -translate-y-1/2 text-gray-400">
+                🔍
+              </span>
+            </div>
+
+
+            {/* ====== A-Z button ===== */}
+            <button className="bg-white text-blue-500 border shadow-[0_6px_16px_rgba(43,127,255,0.3)] border-blue-500 px-4 h-10  rounded-full md:w-auto md:h-16 mt-2 md:mt-0 active:bg-blue-100 active:scale-110"
+              onClick={() => setSortAz(!sortAz)}
+            >
+              A→Z
+            </button>
+
+          </div>
+        </section>
+
+        {/* ===== Members list using sortedMembers ===== */}
+        {loading ? (
+          <div className="flex justify-center items-center mt-20">
+            <p className="text-gray-500 text-xl">Loading members...</p>
+          </div>
+        ) : (
+          <MemberList
+            members={sortedMembers}
+            selectedMemberId={selectedMember?.id}
+            onMemberClick={(member) => setSelectedMember(member)}
+          />
+        )}
+
+        {/* ===== If Selected ===== */}
+        {selectedMember && (
+          <MemberModal
+            member={selectedMember}
+            onClose={() => setSelectedMember(null)}
+          />
+        )}
+      </main>
     </>
 
   )

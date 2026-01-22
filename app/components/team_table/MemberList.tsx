@@ -7,8 +7,8 @@ type Member = {
   email: string;
   avatar: string;
   status: "online" | "offline";
-  workStart: string; // Exemplo: "09:00"
-  workEnd: string;   // Exemplo: "17:00"
+  workStart: string; 
+  workEnd: string;  
   country: string;
   location: string;
   gender: string;
@@ -42,7 +42,7 @@ export default function MemberList({ members, selectedMemberId, onMemberClick, }
             <div className="hidden md:block max-w-[70%] mx-auto">
 
                 {/* Table container */}
-                <div className="rounded-4xl shadow-lg"
+                <div className="rounded-4xl shadow-lg mb-10"
                 >
 
                     {/* Header */}
@@ -96,7 +96,7 @@ export default function MemberList({ members, selectedMemberId, onMemberClick, }
                                         </div>
 
                                         {/* Role */}
-                                        <span className={`text-xs font-medium  px-3 py-1 rounded-full
+                                        <span className={`text-xs font-medium text-nowrap px-3 py-1 rounded-full
                                         
                                             ${member.role === "👑Team Lead" ? "bg-yellow-100 text-yellow-800" :
                                             member.role === "Developer" ? "bg-blue-100 text-blue-800" :

@@ -13,12 +13,12 @@ type HeaderProps = {
 export default function Header({ visible = true}: HeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
 
-  if (!visible) return null;
+  //if (!visible) return null;
 
   return (
 
     <header className={`relative border-b border-gray-300 bg-white transition-transform duration-200 z-50 
-      ${visible ? "translate-y-0" : "-translate-y-full"
+      ${visible ? "block" : "hidden md:block"
 
       }`}
     >
