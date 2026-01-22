@@ -95,17 +95,19 @@
 
 /* tailwind vem primeiro */
 
+html, body {
+  height: 100%; /* Garantir que a altura ocupe toda a tela */
+  overflow-y: auto; /* Permite rolagem vertical com a barra invisível */
+  -webkit-overflow-scrolling: touch; /* Garante rolagem suave no iOS/Android */
+  font-family: "SF Pro Text", "Google Sans", system-ui, sans-serif;
+  background-color: #F3F6FA;
+}
 
-/* Esconder scrollbar mas manter funcionalidade */
 .scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  display: none; /* Chrome, Safari, Edge */
 }
 
-body {
-    font-family: "SF Pro Text", "Google Sans", system-ui, sans-serif;
-    background-color: #F3F6FA;
+.scrollbar-hide {
+  -ms-overflow-style: none; /* Para IE */
+  scrollbar-width: none; /* Firefox */
 }

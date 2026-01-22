@@ -205,26 +205,35 @@ export default function Page() {
 
           <div className="flex flex-col md:flex-row justify-center items-start w-screen mt-5 gap-2 px-5 md:px-5">
 
-            
+
             <div className="relative w-full md:w-[70%] h-16">
               <input
                 type="text"
                 placeholder="Search by name..."
-                className="w-full h-16 border border-gray-300 rounded-full bg-white px-4 pr-28 text-[20px] transition-all duration-200"
+                className="w-full h-16 border border-gray-300 rounded-full bg-white px-4 pr-10 text-[20px] transition-all duration-200"
                 value={searchQuery}
-
-                //  Controla quando o Header/Titles somem
-                onFocus={() => setSearchFocused?.(true)}
-                onBlur={() => setSearchFocused?.(false)}
-
-                // Atualiza o valor e filtra membros
+                onFocus={() => setSearchFocused?.(true)}  // Garante que os elementos sumam
+                onBlur={() => {
+                  // Só executa o blur se o campo estiver vazio (evitar fechar quando limpar o campo)
+                  if (searchQuery === '') {
+                    setSearchFocused?.(false);
+                  }
+                }} // Ao sair, os elementos voltam
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
 
-              {/* Opcional: ícone de lupa dentro do input */}
-              <span className="absolute right-6 top-1/2 transform -translate-y-1/2 text-gray-400">
-                🔍
-              </span>
+              {/* Ícone de X para limpar */}
+              {searchQuery && (
+                <span
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer"
+                  onClick={(e) => {
+                    e.stopPropagation(); // Previne o blur do input
+                    setSearchQuery(''); // Limpa o campo
+                  }}
+                >
+                  ✖️
+                </span>
+              )}
             </div>
 
 

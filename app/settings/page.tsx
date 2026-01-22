@@ -23,8 +23,6 @@ export default function Settings() {
 
   const [mounted, setMounted] = useState(false);
 
-
-
   useEffect(() => {
   setMounted(true);
 }, []);
@@ -34,7 +32,7 @@ export default function Settings() {
   return (
     <>
       <Header></Header>
-      <main className="flex flex-col items-center mt-5 ">
+      <main className="flex flex-col items-center mt-5 h-full mb-50">
         <section className="md:w-[60%] w-[80%] ">
           <h1 className="font-bold text-3xl md:text-5xl">Settings</h1>
           <p className="text-base md:text-xl text-gray-600">
@@ -58,7 +56,7 @@ export default function Settings() {
             <p className="text-black font-semibold text-nowrap">Email Address</p>
 
             <div className="flex flex-col md:flex-row gap-2  md:justify-between">
-              <input type="text" name="Name" id="name" className="bg-gray-200 h-8 text-sm md:text-base px-4 rounded-lg w-full transition" defaultValue="heringer.gustavo31@gmail.com" />
+              <input type="text" name="Name" id="name" className="bg-gray-200 h-8 text-base md:text-base px-4 rounded-lg w-full transition" defaultValue="heringer.gustavo31@gmail.com" />
               <input type="submit" value="Verify" className=" w-full md:w-[15%] h-8 rounded-lg bg-blue-500 text-white font-semibold
               hover:bg-blue-700 hover:scale-102
               active:bg-blue-300 active:scale-98
@@ -85,7 +83,7 @@ export default function Settings() {
               <input
                 value={teamSize}
                 onChange={(e) => setTeamSize(Number(e.target.value))}
-                type="number" name="Name" id="name" className="bg-gray-200 h-8 text-sm md:text-base px-4 rounded-lg w-full md:[w-20%] transition" />
+                type="text" name="Name" id="name" className="bg-gray-200 h-8 text-base md:text-base px-4 rounded-lg w-full md:[w-20%] transition" />
 
               <input
                 type="submit"
