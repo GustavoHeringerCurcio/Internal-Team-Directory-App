@@ -203,7 +203,7 @@ export default function Page() {
           </div>
 
 
-          <div className="flex flex-col md:flex-row justify-center items-start w-screen mt-5 gap-2 px-5 md:px-5">
+          <div className="flex flex-col md:flex-row justify-center items-start w-full mt-5 gap-2 px-5 md:px-5">
 
 
             <div className="relative w-full md:w-[70%] h-16">
