@@ -108,6 +108,6 @@ html, body {
 }
 
 .scrollbar-hide {
-  -ms-overflow-style: none; /* Para IE */
+  -ms-overflow-style: none; /* PFara IE */
   scrollbar-width: none; /* Firefox */
 }

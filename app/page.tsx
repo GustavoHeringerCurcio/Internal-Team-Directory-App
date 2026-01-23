@@ -249,8 +249,10 @@ export default function Page() {
 
         {/* ===== Members list using sortedMembers ===== */}
         {loading ? (
-          <div className="flex justify-center items-center mt-20">
-            <p className="text-gray-500 text-xl">Loading members...</p>
+          <div className="flex flex-col justify-center items-center mt-20">
+            {/* Bolinha girando */}
+            <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-gray-500 text-xl mt-4">Loading members...</p>
           </div>
         ) : (
           <MemberList
