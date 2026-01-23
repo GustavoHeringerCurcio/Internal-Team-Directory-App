@@ -2,7 +2,7 @@
 
 type Feature = {
   label: string
-  available: boolean
+  included: boolean
 }
 
 type PlanCardProps = {
@@ -20,12 +20,13 @@ export default function PlanCard({
   period = "/month",
   features,
   highlighted = false,
+  buttonText,
 }: PlanCardProps) {
 
 
   return (
     <div
-      className={`w-full max-w-sm p-6 rounded-base shadow-xs border
+      className={`w-full md:w-full max-w-sm p-6 rounded-base shadow-xs border
         ${highlighted
           ? "bg-brand-soft border-brand"
           : "bg-neutral-primary-soft border-default"
@@ -60,8 +61,8 @@ export default function PlanCard({
           }
         `}  
       >
-        Currently Plan
         
+        {buttonText} 
       </button>
 
       <ul role="list" className="space-y-4 ">

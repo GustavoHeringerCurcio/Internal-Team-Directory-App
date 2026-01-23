@@ -15,11 +15,12 @@ export default function Pricing() {
 
 
 
-            <div className="flex flex-row gap-4 justify-center  ">
+            <div className="flex flex-row flex-wrap md:flex-nowrap gap-8 md:gap-4 justify-center  ">
               {/* FREE PLAN */}
               <PlanCard
                 title="Free plan"
                 price="$0"
+                buttonText="Currently Plan"
                 features={[
                   { label: "Up to 20 team members", included: true },
                   { label: "Basic member search", included: true },
@@ -35,6 +36,7 @@ export default function Pricing() {
               <PlanCard
                 title="Premium plan"
                 price="$49"
+                buttonText="Upgrade to Premium"
                 highlighted={true} // Destaque para o plano pago
                 features={[
                   { label: "Unlimited team members", included: true },
@@ -45,6 +47,8 @@ export default function Pricing() {
                   { label: "Activity history", included: true },
                   { label: "Priority supports", included: true },
                 ]}
+                
+
               />
             </div>
 
