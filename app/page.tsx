@@ -41,9 +41,9 @@ export default function Page() {
   const [roleFilter, setRoleFilter] = useState("All");
   const [sortAz, setSortAz] = useState(false);
   const [searchFocused, setSearchFocused] = useState(false);
-  const [loading, setLoading] = useState(true); // NOTE: Simple Load State -- transform to skeleton later
+  const [loading, setLoading] = useState(true);
 
-
+  //save on localstorage the number of team members
   const [numberOfTeam, setNumberOfTeam] = useState<number>(() => {
     if (typeof window === "undefined") return 20;
 
@@ -51,8 +51,10 @@ export default function Page() {
     return saved ? Number(saved) : 20;
   });
 
+
   function getStatusByWorkTime(workStart: string, workEnd: string): "online" | "offline" {
-    // Pegar horário atual em EST
+
+    //get current time in EST
     const estTime = new Date().toLocaleString('en-US', {
       timeZone: 'America/New_York',
       hour12: false,
@@ -60,31 +62,31 @@ export default function Page() {
       minute: '2-digit'
     });
 
-    // Compare: estTime >= workStart && estTime < workEnd
+    //to compare estTime >= workStart && estTime < workEnd
     if (estTime >= workStart && estTime < workEnd) {
-      return "online";   // Está dentro do horário de trabalho
+      return "online";   //inside the work time
     } else {
-      return "offline";  // Fora do horário de trabalho
+      return "offline";  //outside the work time
     }
   }
+
+
 
   {/* ===== Overview stats ===== */ }
   const totalMembers = members.length;
 
   // Leaders Active
-  const leadersActive = members.filter(
-    m => m.role === "👑Team Lead" && m.status === "online"
-  ).length;
+  const leadersActive = members.filter(m => m.role === "👑 Team Lead" && m.status === "online").length;
 
   // Members Active
-  const membersActive = members.filter(
-    m => m.status === "online"
-  ).length;
+  const membersActive = members.filter(m => m.status === "online").length;
 
   // Members Away
-  const membersAway = members.filter(
-    m => m.status === "offline"
-  ).length;
+  const membersAway = members.filter(m => m.status === "offline").length;
+
+
+
+
 
   {/* ===== Fetch API using RandomUserAPI ===== */ }
   useEffect(() => {
@@ -111,7 +113,7 @@ export default function Page() {
           return {
             id: index + 1,
             name: `${user.name.first} ${user.name.last}`,
-            role: ["Developer", "Marketing", "Support", "👑Team Lead"][Math.floor(Math.random() * 4)],
+            role: ["Developer", "Marketing", "Support", "👑 Team Lead"][Math.floor(Math.random() * 4)], //decide the 4 roles randomly 
             email: user.email,
             avatar: user.picture.large,
             workStart,
@@ -154,7 +156,7 @@ export default function Page() {
 
 
   //RoleButton Roles(strings)
-  const roles = ["All", "👑Team Lead", "Developer", "Marketing", "Support", "+"];
+  const roles = ["All", "👑 Team Lead", "Developer", "Marketing", "Support", "+" ];
 
   {/* ================== "HTML" ===================*/ }
   return (
@@ -212,28 +214,10 @@ export default function Page() {
                 placeholder="Search by name..."
                 className="w-full h-16 border border-gray-300 rounded-full bg-white px-4 pr-10 text-[20px] transition-all duration-200"
                 value={searchQuery}
-                onFocus={() => setSearchFocused?.(true)}  // Garante que os elementos sumam
-                onBlur={() => {
-                  // Só executa o blur se o campo estiver vazio (evitar fechar quando limpar o campo)
-                  if (searchQuery === '') {
-                    setSearchFocused?.(false);
-                  }
-                }} // Ao sair, os elementos voltam
+                onFocus={() => setSearchFocused(true)}
+                onBlur={() => setSearchFocused(false)}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
-
-              {/* Ícone de X para limpar */}
-              {searchQuery && (
-                <span
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer"
-                  onClick={(e) => {
-                    e.stopPropagation(); // Previne o blur do input
-                    setSearchQuery(''); // Limpa o campo
-                  }}
-                >
-                  ✖️
-                </span>
-              )}
             </div>
 
 
@@ -250,10 +234,11 @@ export default function Page() {
         {/* ===== Members list using sortedMembers ===== */}
         {loading ? (
           <div className="flex flex-col justify-center items-center mt-20">
-            {/* Bolinha girando */}
+            {/* loanding effect with tailwind */}
             <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
             <p className="text-gray-500 text-xl mt-4">Loading members...</p>
           </div>
+          
         ) : (
           <MemberList
             members={sortedMembers}

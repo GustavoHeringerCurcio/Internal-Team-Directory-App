@@ -46,17 +46,17 @@ export default function Settings() {
 
           <div className="flex flex-col mt-5">
             <p className="text-black font-semibold">First Name</p>
-            <input type="text" name="Name" id="name" className="bg-gray-200 h-8 px-4 rounded-lg w-full transition" defaultValue="Gustavo" />
+            <input type="text" name="Name" id="name" className="bg-gray-200 h-8 px-4 rounded-lg w-full transition" placeholder="First Name" />
           </div>
           <div className="flex flex-col mt-5">
             <p className="text-black font-semibold">Last Name</p>
-            <input type="text" name="Name" id="name" className="bg-gray-200 h-8 px-4 rounded-lg w-full transition" defaultValue="Curcio" />
+            <input type="text" name="Name" id="name" className="bg-gray-200 h-8 px-4 rounded-lg w-full transition" placeholder="Last Name"  />
           </div>
           <div className="flex flex-col mt-5">
-            <p className="text-black font-semibold text-nowrap">Email Address</p>
+            <p className="text-black font-semibold text-nowrap" >Email Address</p>
 
             <div className="flex flex-col md:flex-row gap-2  md:justify-between">
-              <input type="text" name="Name" id="name" className="bg-gray-200 h-8 text-base md:text-base px-4 rounded-lg w-full transition" defaultValue="heringer.gustavo31@gmail.com" />
+              <input type="text" name="Name" id="name" className="bg-gray-200 h-8 text-base md:text-base px-4 rounded-lg w-full transition" placeholder="email@example.com" />
               <input type="submit" value="Verify" className=" w-full md:w-[15%] h-8 rounded-lg bg-blue-500 text-white font-semibold
               hover:bg-blue-700 hover:scale-102
               active:bg-blue-300 active:scale-98
@@ -65,7 +65,14 @@ export default function Settings() {
           </div>
           <div className="flex flex-col mt-5">
             <p className="text-black font-semibold">location</p>
-            <input type="text" name="Name" id="name" className="bg-gray-200 h-8 px-4 rounded-lg w-full transition" defaultValue="Brazil, Volta Redonda" />
+            <input type="text" name="Name" id="name" placeholder="Country, City" className="bg-gray-200 h-8 px-4 rounded-lg w-full transition"  />
+            
+          </div>
+          <div>
+            <input type="submit" value="Save Changes" className=" w-full md:full mt-5 h-8 rounded-lg bg-blue-500 text-white font-semibold
+              hover:bg-blue-700 hover:scale-102
+              active:bg-blue-300 active:scale-98
+              " />
           </div>
         </section>
 

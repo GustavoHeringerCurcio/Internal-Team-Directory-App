@@ -26,8 +26,10 @@ export default function Header({ visible = true}: HeaderProps) {
 
         {/* Logo */}
         <div className="flex items-center gap-2">
-          <Image src={Logo} width={70} height={70} alt="TeamForce Logo" />
-          <h2 className="text-blue-500 font-bold text-2xl">TeamForce</h2>
+          <a href="/" className=" flex items-center gap-2">
+            <Image src={Logo} width={70} height={70} alt="TeamForce Logo" />
+            <h2 className="text-blue-500 font-bold text-2xl">TeamForce</h2>
+          </a>
         </div>
 
         {/* Navbar desktop CENTRALIZADA */}

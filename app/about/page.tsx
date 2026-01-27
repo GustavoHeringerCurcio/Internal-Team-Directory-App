@@ -35,7 +35,7 @@ export default function About() {
                 alt="Creator of TeamForce"
               />
             </div>
-            <div className="ml-6 text-center sm:text-left bg-white p-6 rounded-lg shadow-md max-w-xl md:max-w-full">
+            <div className=" text-center sm:text-left bg-white p-6 rounded-lg shadow-md max-w-xl md:max-w-full">
               <h3 className="text-xl sm:text-2xl font-semibold text-gray-800">Creator: Gustavo Heringer Curcio</h3>
               <p className="text-gray-600 mt-4 text-lg sm:text-xl">
                 Hi, I’m Gustavo Heringer Curcio, and I’m the developer behind TeamForce. This project has been an amazing opportunity for me to push my boundaries and keep learning. It’s been a fun and challenging process, and I’m excited for the next step in my learning journey.
