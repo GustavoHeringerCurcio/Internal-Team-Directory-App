@@ -76,7 +76,7 @@ export default function Page() {
   const totalMembers = members.length;
 
   // Leaders Active
-  const leadersActive = members.filter(m => m.role === "👑 Team Lead" && m.status === "online").length;
+  const leadersActive = members.filter(m => m.role === "👑Team Lead" && m.status === "online").length;
 
   // Members Active
   const membersActive = members.filter(m => m.status === "online").length;
@@ -113,7 +113,7 @@ export default function Page() {
           return {
             id: index + 1,
             name: `${user.name.first} ${user.name.last}`,
-            role: ["Developer", "Marketing", "Support", "👑 Team Lead"][Math.floor(Math.random() * 4)], //decide the 4 roles randomly 
+            role: ["Developer", "Marketing", "Support", "👑Team Lead"][Math.floor(Math.random() * 4)], //decide the 4 roles randomly 
             email: user.email,
             avatar: user.picture.large,
             workStart,
@@ -156,7 +156,7 @@ export default function Page() {
 
 
   //RoleButton Roles(strings)
-  const roles = ["All", "👑 Team Lead", "Developer", "Marketing", "Support", "+" ];
+  const roles = ["All", "👑Team Lead", "Developer", "Marketing", "Support", "+" ];
 
   {/* ================== "HTML" ===================*/ }
   return (
