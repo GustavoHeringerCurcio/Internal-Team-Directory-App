@@ -1,3 +1,5 @@
+"use client";
+
 import DashboardHeader from "@/components/features/dashboard/DashboardHeader";
 import PricingPlans from "@/components/features/pricing/PricingPlans";
 
