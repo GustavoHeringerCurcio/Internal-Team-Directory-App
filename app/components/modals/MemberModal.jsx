@@ -2,33 +2,11 @@
 import { useEffect } from "react";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 
-type Member = {
-    id: number;
-    name: string;
-    role: string;
-    email: string;
-    avatar: string;
-    status: "online" | "offline";
-    workStart: string; // Example: "09:00"
-    workEnd: string;   // Example: "17:00"
-    country: string;
-    location: string;
-    gender: string;
-};
-
-
-type MemberModalProps = {
-    member: Member;
-    onClose: () => void;
-};
-
-
-
-export default function MemberModal({ member, onClose }: MemberModalProps) {
+export default function MemberModal({ member, onClose }) {
 
     {/* ===== press esc to close modal and removeEventListener */}
     useEffect(() => {
-        const handleKeyDown = (e: KeyboardEvent) => {
+        const handleKeyDown = (e) => {
             if (e.key === "Escape") {
                 onClose();
             }
@@ -101,52 +79,18 @@ export default function MemberModal({ member, onClose }: MemberModalProps) {
                     </p>
                 </div>
 
-                <div className="my-6 px-4 text-sm md:text-base">
-                    <div className="p-4 bg-gradient-to-r from-blue-50 to-cyan-50 
-                    border border-blue-200 rounded-2xl shadow-sm">
-
-
-
-                        <h3 className="font-bold text-base md:text-lg text-gray-900 flex items-center">
-                            <span>About</span>
-                        </h3>
-
-                        <p >Gender: <span className="font-semibold text-gray-500 break-all">{member.gender}</span></p>
-                        <p >Email: <span className="font-semibold text-gray-500 break-all">{member.email}</span></p>
-                        <p >Location: <span className="font-semibold text-gray-500 break-all">{member.location}</span></p>
-
-                    </div>
+                {/* Location */}
+                <div className="flex justify-start ml-5 mt-3">
+                    <p className=" text-bold text-lg md:text-xl">
+                        📍 {member.location}
+                    </p>
                 </div>
 
-                {/* Contact with npm install react-icons */}
-                <div className="mt-2 flex justify-center gap-6 ">
-                    <a href="https://github.com" target="_blank" rel="noopener noreferrer"
-                        className="text-blue-500 hover:text-blue-900 hover:scale-125 transition">
-                        <FaGithub size={32} />
-                    </a>
-                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
-                        className="text-blue-500 hover:text-blue-700 hover:scale-125 transition">
-                        <FaLinkedin size={32} />
-                    </a>
-                    <a href={`mailto:${member.email}`}
-                        className="text-blue-500 hover:text-blue-700 hover:scale-125 transition">
-                        <FaEnvelope size={32} />
-                    </a>
+                {/* Social Media and Email Section */}
+                <div className="my-5 flex gap-2 justify-center">
+                    <a href={`mailto:${member.email}`} className="text-orange-500 text-2xl hover:text-orange-700 hover:scale-125 active:scale-95"><FaEnvelope /></a>
                 </div>
-
-                <div className="flex justify-center gap-3 p-4 mt-5">
-                    <button className="flex-1 bg-blue-500 text-white py-2.5 rounded-full
-                    hover:bg-blue-600 active:scale-95
-                    font-semibold transition drop-shadow-md
-                    flex items-center justify-center gap-2">
-                        Send Email
-                    </button>
-
-                </div>
-
-
             </div>
         </div>
-
-    )
+    );
 }

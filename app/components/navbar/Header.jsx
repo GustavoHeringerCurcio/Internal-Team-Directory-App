@@ -5,12 +5,7 @@ import Image from "next/image";
 import Logo from "../../src/images/Logo_Team_Force.png";
 import NavLink from "./NavLink";
 
-type HeaderProps = {
-  visible?: boolean;
-};
-
-
-export default function Header({ visible = true}: HeaderProps) {
+export default function Header({ visible = true}) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   //if (!visible) return null;

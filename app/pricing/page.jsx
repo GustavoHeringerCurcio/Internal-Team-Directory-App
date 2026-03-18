@@ -37,7 +37,7 @@ export default function Pricing() {
                 title="Premium plan"
                 price="$49"
                 buttonText="Upgrade to Premium"
-                highlighted={true} // Destaque para o plano pago
+                highlighted={true} 
                 features={[
                   { label: "Unlimited team members", included: true },
                   { label: "Advanced member search", included: true },
@@ -47,12 +47,10 @@ export default function Pricing() {
                   { label: "Activity history", included: true },
                   { label: "Priority supports", included: true },
                 ]}
-                
-
               />
+
+
             </div>
-
-
         </section>
       </main>
     </>

@@ -1,8 +1,4 @@
-type TitleProps = {
-    visible: boolean;
-}
-
-export default function Titles({ visible }: TitleProps) {
+export default function Titles({ visible }) {
 
     //if (!visible) return null;
 

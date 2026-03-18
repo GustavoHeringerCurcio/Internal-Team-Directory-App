@@ -1,19 +1,5 @@
 'use client';
 
-type Feature = {
-  label: string
-  included: boolean
-}
-
-type PlanCardProps = {
-  title: string
-  price: string
-  period?: string
-  features: Feature[]
-  buttonText: string
-  highlighted?: boolean
-}
-
 export default function PlanCard({
   title,
   price,
@@ -21,7 +7,7 @@ export default function PlanCard({
   features,
   highlighted = false,
   buttonText,
-}: PlanCardProps) {
+}) {
 
 
   return (

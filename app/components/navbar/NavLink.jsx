@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 
-export default function NavLink({ href, label }: { href: string; label: string }) {
+export default function NavLink({ href, label }) {
   const pathname = usePathname();
   const isActive = pathname === href;
 

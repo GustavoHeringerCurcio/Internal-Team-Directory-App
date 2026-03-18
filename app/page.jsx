@@ -9,34 +9,11 @@ import Titles from "./components/Titles/Titles";
 import Header from "./components/navbar/Header";
 import Overview from "./components/team_table/Overview";
 
-type Member = {
-  id: number;
-  name: string;
-  role: string;
-  email: string;
-  avatar: string;
-  status: "online" | "offline";
-  workStart: string; // Exemplo: "09:00"
-  workEnd: string;   // Exemplo: "17:00"
-  country: string;
-  location: string;
-  gender: string;
-};
-
-type PageProps = {
-  setSearchFocused?: (val: boolean) => void;
-};
-
-type HeaderProps = {
-  visible?: boolean;
-};
-
-
 export default function Page() {
 
   //use State
-  const [members, setMembers] = useState<Member[]>([]);
-  const [selectedMember, setSelectedMember] = useState<Member | null>(null);
+  const [members, setMembers] = useState([]);
+  const [selectedMember, setSelectedMember] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [roleFilter, setRoleFilter] = useState("All");
   const [sortAz, setSortAz] = useState(false);
@@ -44,7 +21,7 @@ export default function Page() {
   const [loading, setLoading] = useState(true);
 
   //save on localstorage the number of team members
-  const [numberOfTeam, setNumberOfTeam] = useState<number>(() => {
+  const [numberOfTeam, setNumberOfTeam] = useState(() => {
     if (typeof window === "undefined") return 20;
 
     const saved = localStorage.getItem("teamSize");
@@ -52,7 +29,7 @@ export default function Page() {
   });
 
 
-  function getStatusByWorkTime(workStart: string, workEnd: string): "online" | "offline" {
+  function getStatusByWorkTime(workStart, workEnd) {
 
     //get current time in EST
     const estTime = new Date().toLocaleString('en-US', {
@@ -88,16 +65,16 @@ export default function Page() {
 
 
 
-  {/* ===== Fetch API using RandomUserAPI ===== */ }
+  {/* ===== Fetch API using DummyJSON API ===== */ }
   useEffect(() => {
     setLoading(true);
 
     async function fetchMembers() {
       try {
-        const res = await fetch(`https://randomuser.me/api/?results=${numberOfTeam}&nat=us`);
+        const res = await fetch(`https://dummyjson.com/users?limit=${numberOfTeam}`);
         const data = await res.json();
 
-        const fetchedMembers: Member[] = data.results.map((user: any, index: number) => {
+        const fetchedMembers = data.users.map((user) => {
 
           const schedules = [
             { start: "08:00", end: "16:00" },
@@ -111,16 +88,16 @@ export default function Page() {
 
 
           return {
-            id: index + 1,
-            name: `${user.name.first} ${user.name.last}`,
+            id: user.id,
+            name: `${user.firstName} ${user.lastName}`,
             role: ["Developer", "Marketing", "Support", "👑Team Lead"][Math.floor(Math.random() * 4)], //decide the 4 roles randomly 
             email: user.email,
-            avatar: user.picture.large,
+            avatar: user.image,
             workStart,
             workEnd,
             status: getStatusByWorkTime(workStart, workEnd),
-            country: user.location.country,
-            location: user.location.city + ", " + user.location.country,
+            country: user.address.country,
+            location: user.address.city + ", " + user.address.country,
             gender: user.gender,
           };
 

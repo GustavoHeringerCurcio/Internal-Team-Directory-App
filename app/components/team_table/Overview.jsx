@@ -3,21 +3,13 @@
 import { useState, useEffect } from "react";
 import { FaUsers, FaUserTie, FaCheck, FaTimesCircle } from "react-icons/fa";
 
-type OverviewProps = {
-  totalMembers: number;
-  leadersActive: number;
-  membersActive: number;
-  membersAway: number;
-  visible: boolean; // controlado pela outra página
-};
-
 export default function Overview({
   totalMembers,
   leadersActive,
   membersActive,
   membersAway,
   visible,
-}: OverviewProps) {
+}) {
   const [isMobile, setIsMobile] = useState(false);
 
   // Detecta se a tela é mobile

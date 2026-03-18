@@ -1,24 +1,4 @@
-type Member = {
-  id: number;
-  name: string;
-  role: string;
-  email: string;
-  avatar: string;
-  status: "online" | "offline";
-  workStart: string; // Exemplo: "09:00"
-  workEnd: string;   // Exemplo: "17:00"
-  country: string;
-  location: string;
-  gender: string;
-};
-
-type MemberRowProps = {
-    member: Member;
-    isSelected?: boolean;
-    onClick?: () => void; // <- isso permite receber a função
-};
-
-export default function MemberRow({ member, isSelected, onClick }: MemberRowProps) {
+export default function MemberRow({ member, isSelected, onClick }) {
     return (
         <>
             <div
